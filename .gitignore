@@ -1,0 +1,69 @@
+# Flutter/Dart/Pub related
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.iml
+
+# Build outputs
+build/
+flutter_build/
+
+# iOS/Xcode
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/.symlinks/
+ios/Pods/
+ios/Runner.xcworkspace/
+ios/DerivedData/
+ios/.flutter-plugins
+ios/.flutter-plugins-dependencies
+ios/.generated/
+ios/Flutter/App.framework
+ios/Flutter/engine/
+
+# Android/IntelliJ
+android/.gradle/
+android/app/build/
+android/.idea/
+android/local.properties
+
+# Web
+.web/
+
+# macOS
+macos/Flutter/Flutter.framework
+macos/Flutter/Flutter.podspec
+macos/.symlinks/
+macos/Pods/
+macos/Runner.xcworkspace/
+macos/.flutter-plugins
+macos/.flutter-plugins-dependencies
+macos/.generated/
+
+# Windows
+windows/flutter/ephemeral/
+windows/.flutter-plugins
+windows/.flutter-plugins-dependencies
+windows/.dart_tool/
+
+# Linux
+linux/flutter/ephemeral/
+linux/.flutter-plugins
+linux/.flutter-plugins-dependencies
+linux/.dart_tool/
+
+# Symbolic links created by flutter
+.symlinks/
+
+# Other
+*.lock
+*.log
+*.DS_Store
+*.swp
+*.tmp
+*.bak
