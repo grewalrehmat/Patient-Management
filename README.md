@@ -107,4 +107,5 @@ Patient-Management/
 │   ├── Cargo.toml
 ├── .env.example
 ├── docker-compose.yml
+├── pgi_app
 ```
