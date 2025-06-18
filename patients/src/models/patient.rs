@@ -7,7 +7,7 @@ pub struct Patient {
     pub age: i32,
     pub gender: String,
 }
-
+#[allow(dead_code)]
 #[derive(Debug, Deserialize)]
 pub struct NewPatient {
     pub name: String,
