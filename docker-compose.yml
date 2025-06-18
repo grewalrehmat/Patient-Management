@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    container_name: medvault-db
+    restart: always
+    environment:
+      POSTGRES_USER: medvault_user
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: finale
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
