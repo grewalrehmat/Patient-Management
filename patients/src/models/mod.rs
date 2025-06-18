@@ -1,2 +1,3 @@
 pub mod user;
-pub mod patient; // if applicable
+pub mod patient;
+pub mod report;

@@ -6,9 +6,9 @@ services:
     container_name: medvault-db
     restart: always
     environment:
-      POSTGRES_USER: medvault_user
-      POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: finale
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -23,8 +23,8 @@ services:
     ports:
       - "8080:8080"
     environment:
-      DATABASE_URL: postgres://medvault_user:admin123@db:5432/finale
-      JWT_SECRET: supersecretkey
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_SECRET: ${JWT_SECRET}
 
 volumes:
   postgres_data:
