@@ -6,15 +6,15 @@ services:
     container_name: medvault-db
     restart: always
     environment:
-      POSTGRES_USER: medvault_user
-      POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: finale
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
-  patients:
+patients:
     build:
       context: ./patients
       dockerfile: Dockerfile
@@ -32,6 +32,5 @@ services:
     container_name: medvault-auth
     ports:
       - "8713:8713"  # only needed if you want to test it externally
-
 volumes:
   postgres_data:

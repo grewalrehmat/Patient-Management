@@ -12,6 +12,7 @@ RUN rm -r src
 
 # Copy full source and build
 COPY . .
+
 RUN cargo build --release
 
 # ---------- Runtime Stage ----------
