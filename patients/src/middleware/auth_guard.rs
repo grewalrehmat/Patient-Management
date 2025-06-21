@@ -4,7 +4,8 @@ use actix_web::{
     Error, HttpMessage, HttpResponse,
 };
 use actix_web_lab::middleware::Next;
-use jsonwebtoken::{decode, DecodingKey, Validation};
+use jsonwebtoken::{decode, DecodingKey, Validation, Algorithm};
+
 use crate::utils::auth::Claims;
 
 pub async fn jwt_middleware<B>(
@@ -25,12 +26,12 @@ where
         Some(token) => {
             let secret = std::env::var("JWT_SECRET").unwrap_or_else(|_| "secret_key".into());
 
-            let mut validation = Validation::default();
+            let mut validation = Validation::new(Algorithm::HS256);
             validation.validate_exp = true;
 
             match decode::<Claims>(
                 &token,
-                &DecodingKey::from_secret(secret.as_ref()),
+                &DecodingKey::from_secret(secret.as_bytes()),
                 &validation,
             ) {
                 Ok(token_data) => {
@@ -40,17 +41,15 @@ where
                 }
                 Err(err) => {
                     eprintln!("[JWT] Token validation failed: {:?}", err);
-                    let (req, _pl) = req.into_parts();
-                    let res = HttpResponse::Unauthorized()
-                        .body("Invalid token");
+                    let (req, _) = req.into_parts();
+                    let res = HttpResponse::Unauthorized().body("Invalid token");
                     Ok(ServiceResponse::new(req, res).map_into_right_body())
                 }
             }
         }
         None => {
-            let (req, _pl) = req.into_parts();
-            let res = HttpResponse::Unauthorized()
-                .body("Missing token");
+            let (req, _) = req.into_parts();
+            let res = HttpResponse::Unauthorized().body("Missing token");
             Ok(ServiceResponse::new(req, res).map_into_right_body())
         }
     }

@@ -6,33 +6,46 @@ use chrono::{Utc, Duration};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Claims {
-    pub sub: String,
+    pub id: i32,
+    pub email: String,
     pub role: String,
     pub exp: usize,
 }
 
+// Generates a JWT token using user info
 pub fn create_jwt(user: &User) -> Result<String, jsonwebtoken::errors::Error> {
     let expiration = Utc::now()
         .checked_add_signed(Duration::hours(24))
         .expect("valid timestamp")
         .timestamp() as usize;
 
-    let role = user.role
+    let role = user
+        .role
         .iter()
-        .filter_map(|r| r.clone()) // flatten Vec<Option<String>> to Vec<String>
-        .collect();
+        .find_map(|r| r.clone()) // Get first Some(String) role
+        .unwrap_or_else(|| "unknown".to_string());
 
     let claims = Claims {
-        sub: user.email.clone(),
+        id: user.id,
+        email: user.email.clone(),
         role,
         exp: expiration,
     };
 
-    encode(&Header::default(), &claims, &EncodingKey::from_secret("your-secret".as_ref()))
+    let secret = env::var("JWT_SECRET").expect("JWT_SECRET must be set");
+    encode(
+        &Header::default(),
+        &claims,
+        &EncodingKey::from_secret(secret.as_bytes()),
+    )
 }
 
 pub fn decode_jwt(token: &str) -> Result<Claims, jsonwebtoken::errors::Error> {
-    let secret = env::var("JWT_SECRET").unwrap();
-    decode::<Claims>(token, &DecodingKey::from_secret(secret.as_bytes()), &Validation::default())
-        .map(|d| d.claims)
+    let secret = env::var("JWT_SECRET").expect("JWT_SECRET must be set");
+    decode::<Claims>(
+        token,
+        &DecodingKey::from_secret(secret.as_bytes()),
+        &Validation::default(),
+    )
+    .map(|data| data.claims)
 }

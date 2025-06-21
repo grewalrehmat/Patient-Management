@@ -19,7 +19,7 @@ diesel::table! {
 }
 
 diesel::table! {
-    users (id) {
+    users (id) {    
         id -> Int4,
         email -> Varchar,
         hashed_pw -> Varchar,

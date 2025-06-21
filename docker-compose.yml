@@ -26,5 +26,19 @@ services:
       DATABASE_URL: ${DATABASE_URL}
       JWT_SECRET: ${JWT_SECRET}
 
+  django-admin:
+    build:
+      context: ./django_admin
+    container_name: medvault-admin
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./django_admin:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - ./django_admin/.env
+
 volumes:
   postgres_data:
