@@ -14,7 +14,7 @@ services:
     ports:
       - "5432:5432"
 
-patients:
+  patients:
     build:
       context: ./patients
       dockerfile: Dockerfile
@@ -22,15 +22,17 @@ patients:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://medvault_user:admin123@db:5432/finale
+      DATABASE_URL: ${DATABASE_URL}
     ports:
       - "8080:8080"
+
   auth:
     build:
       context: ./auth
       dockerfile: Dockerfile
     container_name: medvault-auth
     ports:
-      - "8713:8713"  # only needed if you want to test it externally
+      - "8713:8713"
+
 volumes:
   postgres_data:
