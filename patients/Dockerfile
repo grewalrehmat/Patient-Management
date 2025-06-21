@@ -1,34 +1,38 @@
 # ---------- Build Stage ----------
-FROM rust:latest AS builder
+FROM rust:latest as builder
 
-# Set working directory
 WORKDIR /app
 
-# Pre-copy: cache dependencies
+# Cache dependencies
 COPY Cargo.toml Cargo.lock ./
 RUN mkdir src && echo "fn main() {}" > src/main.rs
-RUN cargo build --release || true
-RUN rm -r src
+RUN cargo build --release
 
-# Copy full source and build
+# Copy actual source and build real app
 COPY . .
-
 RUN cargo build --release
 
 # ---------- Runtime Stage ----------
-FROM debian:buster-slim
+FROM debian:bookworm-slim
 
-# Create a non-root user
+# Install required runtime libs
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    libssl3 \
+    libpq5 \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN useradd -m appuser
 
-# Copy built binary from builder
+# Copy binary
 COPY --from=builder /app/target/release/patients /usr/local/bin/patients
 
-# Set user
-USER appuser
+# Set permissions
+RUN chown appuser:appuser /usr/local/bin/patients
 
-# Expose port (match the one your Rust app listens on)
+USER appuser
+WORKDIR /home/appuser
+
 EXPOSE 8080
 
-# Run the app
 CMD ["patients"]
