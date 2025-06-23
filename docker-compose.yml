@@ -30,7 +30,7 @@ services:
       dockerfile: Dockerfile
     container_name: medvault-auth
     ports:
-      - "8713:8713"
+      - "3000:3000"
 
 volumes:
   postgres_data:
