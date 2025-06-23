@@ -1,4 +1,5 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
+import type { Application } from 'express';
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
@@ -13,26 +14,31 @@ const users = [
     }
 ];
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET as string;
 
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: JWT_SECRET
 };
 
+interface JwtPayload {
+    userId: string;
+}
 
 passport.use(
-    new JwtStrategy(opts, async (jwt_payload, done) => {
-        const user = users.find(u => u._id === jwt_payload.userId);
-        if (user) return done(null, user);
-        else return done(null, false);
-    })
+    new JwtStrategy(
+        opts,
+        async (jwt_payload: JwtPayload, done: (error: any, user?: any, info?: any) => void) => {
+            const user = users.find(u => u._id === jwt_payload.userId);
+            if (user) return done(null, user);
+            else return done(null, false);
+        }
+    )
 );
 
-const app = express();
+const app: Application = express();
 app.use(express.json());
 app.use(passport.initialize());
-
 
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
@@ -49,23 +55,28 @@ app.post('/login', async (req, res) => {
     res.json({ token });
 });
 
-
 // POST /verify
 app.post('/verify', (req, res) => {
-  const authHeader = req.headers.authorization;
-  const token = authHeader?.split(' ')[1];
+    const authHeader = req.headers.authorization;
+    const token = authHeader?.split(' ')[1];
 
-  if (!token) return res.status(400).json({ error: 'Token missing' });
+    if (!token) return res.status(400).json({ error: 'Token missing' });
 
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    res.json({ valid: true, user: decoded });
-  } catch (err) {
-    res.status(401).json({ valid: false, error: 'Invalid or expired token' });
-  }
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+        res.json({ valid: true, user: decoded });
+    } catch (err) {
+        res.status(401).json({ valid: false, error: 'Invalid or expired token' });
+    }
 });
 
 // /protected — Protected route
+// app.get('/protected', passport.authenticate('jwt', { session: false }), (req: Request, res: Response) => {
+//     // @ts-ignore
+//     res.json({ message: `Hello ${req.user.username}` });
+// });
+
+// /protected 
 // app.get('/protected', passport.authenticate('jwt', { session: false }), (req, res) => {
 //         res.json({ message: `Hello ${req.user.username}` });
 //     }
