@@ -18,7 +18,7 @@ pub async fn login(data: web::Json<LoginRequest>) -> impl Responder {
     let client = Client::new();
 
     let res = client
-        .post("http://medvault-auth:8080/login")
+        .post("http://auth:3000/login")
         .json(&*data)
         .send()
         .await;

@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y \
     libgcc-s1 \
     libstdc++6 \
     ca-certificates \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m appuser

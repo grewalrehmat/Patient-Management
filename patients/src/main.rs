@@ -107,7 +107,7 @@ async fn main() -> std::io::Result<()> {
 
     println!("🚀 Starting Actix Web server on port 8080...");
 
-    HttpServer::new(|| {
+HttpServer::new(|| {
     App::new()
         .service(health::health_check)
         .service(
