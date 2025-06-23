@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   db:
     image: postgres:15
@@ -9,8 +11,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+    networks:
+      - mednet
 
   patients:
     build:
@@ -23,6 +25,8 @@ services:
       DATABASE_URL: ${DATABASE_URL}
     ports:
       - "8080:8080"
+    networks:
+      - mednet
 
   auth:
     build:
@@ -31,6 +35,11 @@ services:
     container_name: medvault-auth
     ports:
       - "8713:8713"
+    networks:
+      - mednet
 
 volumes:
   postgres_data:
+
+networks:
+  mednet:

@@ -17,9 +17,12 @@ FROM debian:bookworm-slim
 
 # Install required runtime libs
 RUN apt-get update && apt-get install -y \
-    ca-certificates \
     libssl3 \
     libpq5 \
+    zlib1g \
+    libgcc-s1 \
+    libstdc++6 \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m appuser
@@ -33,6 +36,6 @@ RUN chown appuser:appuser /usr/local/bin/patients
 USER appuser
 WORKDIR /home/appuser
 
-EXPOSE 8080
+EXPOSE 8000
 
 CMD ["patients"]
