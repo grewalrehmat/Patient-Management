@@ -1,57 +1,89 @@
 use actix_web::{
-    body::{EitherBody, MessageBody},
-    dev::{ServiceRequest, ServiceResponse},
+    body::{EitherBody, MessageBody, BoxBody},
+    dev::{Service, ServiceRequest, ServiceResponse, Transform},
     Error, HttpMessage, HttpResponse,
 };
-use actix_web_lab::middleware::Next;
+use futures_util::future::{ok, LocalBoxFuture, Ready};
 use jsonwebtoken::{decode, DecodingKey, Validation};
-use crate::utils::auth::Claims;
+use serde::{Deserialize};
+use std::{rc::Rc, task::{Context, Poll}, future::ready};
 
-pub async fn jwt_middleware<B>(
-    mut req: ServiceRequest,
-    next: Next<B>,
-) -> Result<ServiceResponse<EitherBody<B>>, Error>
+pub struct JwtMiddleware;
+
+impl<S> Transform<S, ServiceRequest> for JwtMiddleware
 where
-    B: MessageBody + 'static,
+    S: Service<ServiceRequest, Response = ServiceResponse<BoxBody>, Error = Error> + 'static,
 {
-    let token = req
-        .headers()
-        .get("Authorization")
-        .and_then(|h| h.to_str().ok())
-        .and_then(|h| h.strip_prefix("Bearer "))
-        .map(str::to_string);
+    type Response = ServiceResponse<BoxBody>;
+    type Error = Error;
+    type InitError = ();
+    type Transform = JwtMiddlewareImpl<S>;
+    type Future = Ready<Result<Self::Transform, Self::InitError>>;
 
-    match token {
-        Some(token) => {
-            let secret = std::env::var("JWT_SECRET").unwrap_or_else(|_| "secret_key".into());
+    fn new_transform(&self, service: S) -> Self::Future {
+        ok(JwtMiddlewareImpl {
+            service: Rc::new(service),
+        })
+    }
+}
 
-            let mut validation = Validation::default();
-            validation.validate_exp = true;
+#[derive(Clone)]
+pub struct JwtMiddlewareImpl<S> {
+    service: Rc<S>,
+}
 
-            match decode::<Claims>(
-                &token,
-                &DecodingKey::from_secret(secret.as_ref()),
-                &validation,
-            ) {
-                Ok(token_data) => {
-                    req.extensions_mut().insert(token_data.claims);
-                    let res = next.call(req).await?;
-                    Ok(res.map_into_left_body())
+#[derive(Debug, Deserialize)]
+struct Claims {
+    sub: String,
+    exp: usize,
+}
+
+impl<S> Service<ServiceRequest> for JwtMiddlewareImpl<S>
+where
+    S: Service<ServiceRequest, Response = ServiceResponse<BoxBody>, Error = Error> + 'static,
+{
+    type Response = ServiceResponse<BoxBody>;
+    type Error = Error;
+    type Future = LocalBoxFuture<'static, Result<Self::Response, Self::Error>>;
+
+    fn poll_ready(&self, ctx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+        self.service.poll_ready(ctx)
+    }
+
+    fn call(&self, req: ServiceRequest) -> Self::Future {
+        let srv = Rc::clone(&self.service);
+
+        Box::pin(async move {
+            let token_opt = req
+                .headers()
+                .get("Authorization")
+                .and_then(|h| h.to_str().ok())
+                .map(|s| s.trim_start_matches("Bearer ").to_string());
+
+            if let Some(token) = token_opt {
+                let decoding_key = DecodingKey::from_secret("your-secret-key".as_ref());
+                match decode::<Claims>(&token, &decoding_key, &Validation::default()) {
+                    Ok(_) => {
+                        let res = srv.call(req).await?;
+                        Ok(res)
+                    }
+                    Err(_) => {
+                        let res = req.into_response(
+                            HttpResponse::Unauthorized()
+                                .body("Invalid token")
+                                .map_into_boxed_body(),
+                        );
+                        Ok(res)
+                    }
                 }
-                Err(err) => {
-                    eprintln!("[JWT] Token validation failed: {:?}", err);
-                    let (req, _pl) = req.into_parts();
-                    let res = HttpResponse::Unauthorized()
-                        .body("Invalid token");
-                    Ok(ServiceResponse::new(req, res).map_into_right_body())
-                }
+            } else {
+                let res = req.into_response(
+                    HttpResponse::Unauthorized()
+                        .body("Missing token")
+                        .map_into_boxed_body(),
+                );
+                Ok(res)
             }
-        }
-        None => {
-            let (req, _pl) = req.into_parts();
-            let res = HttpResponse::Unauthorized()
-                .body("Missing token");
-            Ok(ServiceResponse::new(req, res).map_into_right_body())
-        }
+        })
     }
 }

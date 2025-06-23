@@ -31,3 +31,9 @@ uuid = { version = "1", features = ["v4", "serde"] }
 chrono = { version = "0.4", features = ["serde"] }
 
 actix-web-lab = "0.20"
+argon2 = "0.5"
+actix-service = "2.0.3"
+tokio = "1.45.1"
+futures = "0.3.31"
+reqwest = { version = "0.11", features = ["json"] }
+

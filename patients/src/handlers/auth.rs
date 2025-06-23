@@ -1,21 +1,39 @@
-use actix_web::{post, web, HttpResponse};
-use crate::models::user::UserLogin;
-use crate::utils::{auth::create_jwt, hash::verify_password};
-use crate::db;
+use actix_web::{post, web, HttpResponse, Responder};
+use serde::{Deserialize, Serialize};
+use reqwest::Client;
+
+#[derive(Debug, Deserialize, Serialize)] // 👈 added Serialize here
+pub struct LoginRequest {
+    pub email: String,
+    pub password: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct LoginResponse {
+    pub token: String,
+}
 
 #[post("/login")]
-pub async fn login(user: web::Json<UserLogin>) -> HttpResponse {
-    match db::get_user_by_email(&user.email).await {
-        Some(db_user) => {
-            if verify_password(&user.password, &db_user.hashed_pw) {
-                match create_jwt(&db_user) {
-                    Ok(token) => HttpResponse::Ok().json(token),
-                    Err(_) => HttpResponse::InternalServerError().body("Token failure"),
+pub async fn login(data: web::Json<LoginRequest>) -> impl Responder {
+    let client = Client::new();
+
+    let res = client
+        .post("http://medvault-auth:8080/login")
+        .json(&*data)
+        .send()
+        .await;
+
+    match res {
+        Ok(response) => {
+            if response.status().is_success() {
+                match response.json::<LoginResponse>().await {
+                    Ok(token_data) => HttpResponse::Ok().json(token_data),
+                    Err(_) => HttpResponse::InternalServerError().body("Token parse failed"),
                 }
             } else {
-                HttpResponse::Unauthorized().body("Wrong password")
+                HttpResponse::Unauthorized().body("Invalid credentials")
             }
         }
-        None => HttpResponse::NotFound().body("User not found"),
+        Err(_) => HttpResponse::InternalServerError().body("Login service unavailable"),
     }
 }

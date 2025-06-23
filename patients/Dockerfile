@@ -29,6 +29,7 @@ RUN useradd -m appuser
 
 # Copy binary
 COPY --from=builder /app/target/release/patients /usr/local/bin/patients
+RUN chown appuser:appuser /usr/local/bin/patients
 
 # Set permissions
 RUN chown appuser:appuser /usr/local/bin/patients
@@ -36,6 +37,6 @@ RUN chown appuser:appuser /usr/local/bin/patients
 USER appuser
 WORKDIR /home/appuser
 
-EXPOSE 8000
+EXPOSE 8080
 
 CMD ["patients"]
