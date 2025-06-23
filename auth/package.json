@@ -12,11 +12,13 @@
   "license": "Apache-2.0",
   "description": "",
   "dependencies": {
+    "@types/pg": "^8.15.4",
     "bcryptjs": "^3.0.2",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "passport": "^0.7.0",
-    "passport-jwt": "^4.0.1"
+    "passport-jwt": "^4.0.1",
+    "pg": "^8.16.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
