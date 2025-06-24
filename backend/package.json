@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.23"
+  },
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon main.js"
+  },
+  "author": "Baltej Singh",
+  "license": "Apache-2.0",
+  "description": ""
+}
