@@ -4,7 +4,7 @@ import 'home_page.dart';
 import 'records_page.dart';
 import 'upload_page.dart';
 import 'ocr_page.dart';
-import 'pseudo_page.dart';
+import 'log_visit_page.dart';
 import 'patients_page.dart';
 import 'settings_page.dart';
 import 'login_screen.dart';
@@ -55,7 +55,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       const RecordsPage(),
       isWideScreen ? const UploadPage() : const OCRPage(),
       if (isWideScreen) const PatientsPage(),
-      const PseudoPage(),
+      const LogVisitPage(),
       const SettingsPage(),
     ];
   }
@@ -113,7 +113,7 @@ class _MainScaffoldState extends State<MainScaffold> {
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.auto_awesome),
-                  label: Text('Pseudo'),
+                  label: Text('Log Visit'),
                 ),
               ],
             ),
@@ -153,7 +153,7 @@ class _MainScaffoldState extends State<MainScaffold> {
           BottomNavigationBarItem(icon: Icon(Icons.camera_alt), label: 'OCR'),
           BottomNavigationBarItem(
             icon: Icon(Icons.auto_awesome),
-            label: 'Pseudo',
+            label: 'Log Visit',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'records_page.dart';
 import 'ocr_page.dart';
-import 'pseudo_page.dart';
+import 'log_visit_page.dart';
 import 'settings_page.dart';
 
 class Dashboard extends StatefulWidget {
@@ -21,7 +21,7 @@ class _DashboardState extends State<Dashboard> {
     HomePage(),
     RecordsPage(),
     OCRPage(),
-    PseudoPage(),
+    LogVisitPage(),
     SettingsPage(),
   ];
 
@@ -61,7 +61,7 @@ class _DashboardState extends State<Dashboard> {
           ),
         ],
       ),
-      body: _pages[_currentIndex],
+      body: SafeArea(child: _pages[_currentIndex]),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 4,
