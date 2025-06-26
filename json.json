@@ -1,0 +1,6 @@
+{ 
+    "name":String,
+    "age":number,
+    "gender":"male"||"female", // HEHE
+    "phone_number":String, 
+}
