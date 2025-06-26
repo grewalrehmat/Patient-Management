@@ -1,9 +1,14 @@
 {
   "dependencies": {
+    "@prisma/client": "^6.10.1",
     "express": "^4.21.2"
   },
   "devDependencies": {
-    "@types/express": "^4.17.23"
+    "@types/express": "^4.17.23",
+    "@types/node": "^24.0.4",
+    "prisma": "^6.10.1",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
   },
   "name": "backend",
   "version": "1.0.0",
