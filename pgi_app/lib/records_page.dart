@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'log_visit_page.dart';
+
 class RecordsPage extends StatefulWidget {
   const RecordsPage({super.key});
 
@@ -145,7 +147,15 @@ class _RecordsPageState extends State<RecordsPage> {
                               Icons.arrow_forward_ios,
                               color: Colors.white54,
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      LogVisitPage(patient: patient),
+                                ),
+                              );
+                            },
                           ),
                         );
                       },
