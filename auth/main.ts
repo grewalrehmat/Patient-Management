@@ -3,17 +3,13 @@ import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import { PrismaClient } from './generated/prisma/client.js';
 
-const users = [
-    {
-        _id: 'u1',
-        email: 'user@medvault.com',
-        passwordHash: bcrypt.hashSync('supersecret', 10),
-        username: 'meduser'
-    }
-];
+const prisma = new PrismaClient();
 
-const JWT_SECRET = 'Hello_there_I_am_a_pool_of_electrons'; // Or use dotenv
+// const patients = await prisma.patient.findMany();
+
+const JWT_SECRET:any = process.env.JWT_SECRET || "ThisistheMAKESHIFTenvVariableWhichWIllbEChangedAfterWords"; // Or use dotenv
 
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -23,7 +19,14 @@ const opts = {
 
 passport.use(
     new JwtStrategy(opts, async (jwt_payload, done) => {
-        const user = users.find(u => u._id === jwt_payload.userId);
+        let user;
+        // (async ()=>{
+        //   const patient = await prisma.patient.findUnique({
+        //     where:{
+        //       email:
+        //     }
+        //   });
+        // })();
         if (user) return done(null, user);
         else return done(null, false);
     })
@@ -36,14 +39,27 @@ app.use(passport.initialize());
 
 app.post('/login', async (req:Request, res:Response) => {
     const { email, password } = req.body;
-    const user = users.find(u => u.email === email);
+    console.log(email, password);
+    const user = await prisma.employee.findFirst({
+      where:{
+        email:email,
+      }
+    });
+    console.log(user);
+    if (!user) {
+      console.log("No user");
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
 
-    if (!user) return res.status(401).json({ message: 'Invalid email or password' });
+    // const isMatch = await bcrypt.compare(password, user.pwd); // When the passwords stored are hashed.
+    const isMatch = password === user.pwd ? true: false;
+    console.log(isMatch, password, user.pwd);
 
-    const isMatch = await bcrypt.compare(password, user.passwordHash);
-    if (!isMatch) return res.status(401).json({ message: 'Invalid email or password' });
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
 
-    const payload = { userId: user._id };
+    const payload = { userId: user.employeeid };
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
 
     res.json({ token });

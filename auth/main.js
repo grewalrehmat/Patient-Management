@@ -11,22 +11,23 @@ import express from 'express';
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
-const users = [
-    {
-        _id: 'u1',
-        email: 'user@medvault.com',
-        passwordHash: bcrypt.hashSync('supersecret', 10),
-        username: 'meduser'
-    }
-];
-const JWT_SECRET = 'Hello_there_I_am_a_pool_of_electrons'; // Or use dotenv
+import { PrismaClient } from './generated/prisma/client.js';
+const prisma = new PrismaClient();
+// const patients = await prisma.patient.findMany();
+const JWT_SECRET = process.env.JWT_SECRET || "ThisistheMAKESHIFTenvVariableWhichWIllbEChangedAfterWords"; // Or use dotenv
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: JWT_SECRET
 };
 passport.use(new JwtStrategy(opts, (jwt_payload, done) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = users.find(u => u._id === jwt_payload.userId);
+    let user;
+    // (async ()=>{
+    //   const patient = await prisma.patient.findUnique({
+    //     where:{
+    //       email:
+    //     }
+    //   });
+    // })();
     if (user)
         return done(null, user);
     else
@@ -37,13 +38,24 @@ app.use(express.json());
 app.use(passport.initialize());
 app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
-    const user = users.find(u => u.email === email);
-    if (!user)
+    console.log(email, password);
+    const user = yield prisma.employee.findFirst({
+        where: {
+            email: email,
+        }
+    });
+    console.log(user);
+    if (!user) {
+        console.log("No user");
         return res.status(401).json({ message: 'Invalid email or password' });
-    const isMatch = yield bcrypt.compare(password, user.passwordHash);
-    if (!isMatch)
+    }
+    // const isMatch = await bcrypt.compare(password, user.pwd); // When the passwords stored are hashed.
+    const isMatch = password === user.pwd ? true : false;
+    console.log(isMatch, password, user.pwd);
+    if (!isMatch) {
         return res.status(401).json({ message: 'Invalid email or password' });
-    const payload = { userId: user._id };
+    }
+    const payload = { userId: user.employeeid };
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
     res.json({ token });
 }));
