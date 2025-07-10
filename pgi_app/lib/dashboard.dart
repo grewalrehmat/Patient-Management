@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'records_page.dart';
@@ -74,7 +73,7 @@ class _DashboardState extends State<Dashboard> {
               _buildNavIcon(Icons.home, 0, "Home"),
               _buildNavIcon(Icons.folder_copy, 1, "Records"),
               const SizedBox(width: 48),
-              _buildNavIcon(Icons.auto_awesome, 3, "Pseudo"),
+              _buildNavIcon(Icons.auto_awesome, 3, "Log Visit"),
               _buildNavIcon(Icons.settings, 4, "Settings"),
             ],
           ),

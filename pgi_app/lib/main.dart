@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'records_page.dart';
@@ -63,6 +62,7 @@ class _MainScaffoldState extends State<MainScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: isWideScreen
           ? Row(
               children: [
@@ -82,7 +82,7 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   Widget _buildSidebar() {
     return Container(
-      width: 80,
+      width: 62,
       color: const Color(0xFF2C2C2E),
       child: Column(
         children: [
@@ -133,7 +133,7 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   Widget _buildBottomNav() {
     return SizedBox(
-      height: 80,
+      height: 98,
       child: BottomNavigationBar(
         currentIndex: selectedIndex,
         onTap: (index) => setState(() => selectedIndex = index),
@@ -145,7 +145,7 @@ class _MainScaffoldState extends State<MainScaffold> {
         unselectedFontSize: 12,
         type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: 'Homee'),
           BottomNavigationBarItem(
             icon: Icon(Icons.folder_copy),
             label: 'Records',
@@ -153,7 +153,7 @@ class _MainScaffoldState extends State<MainScaffold> {
           BottomNavigationBarItem(icon: Icon(Icons.camera_alt), label: 'OCR'),
           BottomNavigationBarItem(
             icon: Icon(Icons.auto_awesome),
-            label: 'Log Visit',
+            label: 'LogVisit',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),

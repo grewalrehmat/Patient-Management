@@ -27,7 +27,7 @@ class TopPanel extends StatelessWidget implements PreferredSizeWidget {
           IconButton(
             icon: Icon(
               Icons.notifications_none,
-              color: Colors.white,
+              color: const Color.fromARGB(255, 255, 255, 255),
               size: isMobile ? 26 : 30,
             ),
             onPressed: () {},
