@@ -144,19 +144,50 @@ class _MainScaffoldState extends State<MainScaffold> {
         selectedFontSize: 14,
         unselectedFontSize: 12,
         type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: 'Homee'),
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.folder_copy),
+            icon: Image.asset(
+              'assets/icons/home (2).png',
+              width: 24,
+              height: 30,
+              color: const Color.fromARGB(200, 255, 255, 255),
+            ),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              'assets/icons/diary-clasp.png',
+              width: 24,
+              height: 30,
+              color: const Color.fromARGB(200, 255, 255, 255),
+            ),
             label: 'Records',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.camera_alt), label: 'OCR'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.auto_awesome),
+            icon: Image.asset(
+              'assets/icons/camera-retro.png',
+              width: 24,
+              height: 30,
+              color: const Color.fromARGB(200, 255, 255, 255),
+            ),
+            label: 'OCR',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              'assets/icons/chart-histogram.png',
+              width: 24,
+              height: 30,
+              color: const Color.fromARGB(200, 255, 255, 255),
+            ),
             label: 'LogVisit',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: Image.asset(
+              'assets/icons/settings.png',
+              width: 24,
+              height: 30,
+              color: const Color.fromARGB(200, 255, 255, 255),
+            ),
             label: 'Settings',
           ),
         ],

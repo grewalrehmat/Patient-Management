@@ -16,7 +16,7 @@ class TopPanel extends StatelessWidget implements PreferredSizeWidget {
         toolbarHeight: height,
         titleSpacing: 20,
         title: Text(
-          'MedVault-RS 👨‍⚕️',
+          'MedVault-RS',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -38,10 +38,11 @@ class TopPanel extends StatelessWidget implements PreferredSizeWidget {
               icon: CircleAvatar(
                 backgroundColor: Colors.black,
                 radius: isMobile ? 18 : 22,
-                child: Icon(
-                  Icons.person,
+                child: Image.asset(
+                  'assets/icons/user-md.png',
+                  width: isMobile ? 20 : 24,
+                  height: isMobile ? 20 : 24,
                   color: Colors.white,
-                  size: isMobile ? 20 : 24,
                 ),
               ),
               onPressed: () {
