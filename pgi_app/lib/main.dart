@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'home_page.dart';
 import 'records_page.dart';
 import 'upload_page.dart';
@@ -10,7 +11,15 @@ import 'login_screen.dart';
 import 'profile_page.dart';
 import 'top_panel.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Lock the orientation to portrait only
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   runApp(const MedVaultApp());
 }
 
