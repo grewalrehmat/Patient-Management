@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'home_page.dart';
 import 'records_page.dart';
 import 'upload_page.dart';
@@ -11,7 +11,15 @@ import 'login_screen.dart';
 import 'profile_page.dart';
 import 'top_panel.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Lock the orientation to portrait only
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   runApp(const MedVaultApp());
 }
 
@@ -63,6 +71,7 @@ class _MainScaffoldState extends State<MainScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: isWideScreen
           ? Row(
               children: [
@@ -82,7 +91,7 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   Widget _buildSidebar() {
     return Container(
-      width: 80,
+      width: 62,
       color: const Color(0xFF2C2C2E),
       child: Column(
         children: [
@@ -133,7 +142,7 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   Widget _buildBottomNav() {
     return SizedBox(
-      height: 80,
+      height: 98,
       child: BottomNavigationBar(
         currentIndex: selectedIndex,
         onTap: (index) => setState(() => selectedIndex = index),
@@ -144,19 +153,50 @@ class _MainScaffoldState extends State<MainScaffold> {
         selectedFontSize: 14,
         unselectedFontSize: 12,
         type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: 'Home'),
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.folder_copy),
+            icon: Image.asset(
+              'assets/icons/home (2).png',
+              width: 24,
+              height: 30,
+              color: const Color.fromARGB(200, 255, 255, 255),
+            ),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              'assets/icons/diary-clasp.png',
+              width: 24,
+              height: 30,
+              color: const Color.fromARGB(200, 255, 255, 255),
+            ),
             label: 'Records',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.camera_alt), label: 'OCR'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.auto_awesome),
-            label: 'Log Visit',
+            icon: Image.asset(
+              'assets/icons/camera-retro.png',
+              width: 24,
+              height: 30,
+              color: const Color.fromARGB(200, 255, 255, 255),
+            ),
+            label: 'OCR',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: Image.asset(
+              'assets/icons/chart-histogram.png',
+              width: 24,
+              height: 30,
+              color: const Color.fromARGB(200, 255, 255, 255),
+            ),
+            label: 'LogVisit',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              'assets/icons/settings.png',
+              width: 24,
+              height: 30,
+              color: const Color.fromARGB(200, 255, 255, 255),
+            ),
             label: 'Settings',
           ),
         ],

@@ -11,17 +11,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  String? _selectedRole;
   bool _isPasswordVisible = false;
-
-  final List<String> _roles = ['Doctor', 'Intern', 'Trainee'];
 
   @override
   void initState() {
     super.initState();
     _emailController.clear();
     _passwordController.clear();
-    _selectedRole = null;
   }
 
   @override
@@ -118,38 +114,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 const SizedBox(height: 20),
-
-                // Role Dropdown
-                DropdownButtonFormField<String>(
-                  value: _selectedRole,
-                  isExpanded: true,
-                  items: _roles.map((role) {
-                    return DropdownMenuItem<String>(
-                      value: role,
-                      child: Text(
-                        role,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() => _selectedRole = value);
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'Select Role',
-                    labelStyle: const TextStyle(color: Colors.white70),
-                    filled: true,
-                    fillColor: Colors.white10,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  dropdownColor: Colors.grey[850],
-                  validator: (value) =>
-                      value == null ? 'Please select a role' : null,
-                ),
-                const SizedBox(height: 32),
-
                 // Login Button
                 SizedBox(
                   width: double.infinity,

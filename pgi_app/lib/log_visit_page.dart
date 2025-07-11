@@ -194,23 +194,6 @@ class _LogVisitPageState extends State<LogVisitPage> {
                 ElevatedButton(
                   onPressed: () {
                     // No validation, just process data
-                    final data = {
-                      'name': _nameController.text,
-                      'age': _ageController.text,
-                      'gender': _gender,
-                      'temp': _tempController.text,
-                      'map': _mapController.text,
-                      'ph': _phController.text,
-                      'heartRate': _heartRateController.text,
-                      'respiratory': _respiratoryController.text,
-                      'sodium': _sodiumController.text,
-                      'potassium': _potassiumController.text,
-                      'creatinine': _creatinineController.text,
-                      'hematocrit': _hematocritController.text,
-                      'gcs': _gcsController.text,
-                      'apacheScore': _apacheScoreController.text,
-                      'mortality': _mortalityController.text,
-                    };
                     // handling the data here (e.g., send to backend)
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Visit logged!')),

@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
         children: [
           const SizedBox(height: 8),
           const Text(
-            'Hello, Yuvraj',
+            'Hello, Yuvraj!',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w500,
