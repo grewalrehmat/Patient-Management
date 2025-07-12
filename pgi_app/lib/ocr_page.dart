@@ -53,9 +53,8 @@ class _OCRPageState extends State<OCRPage> {
       _extractedText = null;
     });
     final inputImage = InputImage.fromFile(imageFile);
-    final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
     try {
-      final RecognizedText recognizedText = await textRecognizer.processImage(inputImage);
+      final RecognizedText recognizedText = await _textRecognizer.processImage(inputImage);
       String formatted = _formatRecognizedText(recognizedText);
       setState(() {
         _extractedText = formatted;
