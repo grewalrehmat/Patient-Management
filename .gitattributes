@@ -1,0 +1,10 @@
+# Ignore all HTML files in language stats
+*.html linguist-vendored
+
+# Ignore CMake build files
+CMakeFiles/** linguist-generated
+build/** linguist-generated
+
+# Ignore Ruby stuff
+*.gem linguist-generated
+.bundle/** linguist-generated

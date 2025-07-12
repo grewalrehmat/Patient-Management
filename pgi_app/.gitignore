@@ -1,0 +1,64 @@
+# Root-Level Secrets
+.env
+.env.*
+
+# Global OS/Editor Junk
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.bak
+*.tmp
+*.old
+*.log
+
+# VSCode & IntelliJ
+.vscode/
+.idea/
+
+# === Rust Project: /patients ===
+/patients/target/
+/patients/Cargo.lock
+*/.rs.bk
+*/.rs.swp
+
+# Diesel
+/patients/diesel.toml
+/patients/diesel_output.txt
+/patients/migrations//up.sql.swp
+
+# === Flutter or Dart Project: /pgi_app ===
+/pgi_app/.dart_tool/
+/pgi_app/.packages
+/pgi_app/.flutter-plugins
+/pgi_app/.flutter-plugins-dependencies
+/pgi_app/.pub-cache/
+/pgi_app/.pub/
+/pgi_app/build/
+/pgi_app/.idea/
+.pgi_app/.vscode/
+/pgi_app/ios/Flutter/Flutter.framework
+/pgi_app/ios/Pods/
+/pgi_app/ios/DerivedData/
+/pgi_app/android/.gradle/
+/pgi_app/android/app/build/
+/pgi_app/web/
+/pgi_app/macos/Pods/
+/pgi_app/windows/flutter/ephemeral/
+/pgi_app/linux/flutter/ephemeral/
+/pgi_app/test/
+
+# Flutter misc
+.symlinks/
+*.lock
+
+# Build Artifacts
+*.out
+*.dSYM/
+*.exe
+*.o
+*.so
+*.dll
+*.dylib
+
+auth/node_modules

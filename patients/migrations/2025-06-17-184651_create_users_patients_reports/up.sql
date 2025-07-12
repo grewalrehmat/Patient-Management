@@ -1,0 +1,20 @@
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR NOT NULL UNIQUE,
+    hashed_pw VARCHAR NOT NULL,
+    role TEXT[] NOT NULL
+);
+
+CREATE TABLE patients (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    age INTEGER NOT NULL,
+    gender VARCHAR NOT NULL
+);
+
+CREATE TABLE reports (
+    id SERIAL PRIMARY KEY,
+    patient_id INTEGER REFERENCES patients(id) ON DELETE CASCADE,
+    file_path VARCHAR NOT NULL,
+    uploaded_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

@@ -1,0 +1,33 @@
+[package]
+name = "patients"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Database
+diesel = { version = "2.2.0", features = ["postgres", "r2d2"] }
+dotenvy = "0.15"
+
+# Web Framework
+actix-web = "4"
+actix-multipart = "0.4"
+actix-web-httpauth = "0.8"      # ✅ Needed for BearerAuth guards
+
+# Async
+futures-util = "0.3"
+
+# Auth
+jsonwebtoken = "8"
+bcrypt = "0.14"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# UUIDs
+uuid = { version = "1", features = ["v4", "serde"] }
+
+# Time
+chrono = { version = "0.4", features = ["serde"] }
+
+actix-web-lab = "0.20"
