@@ -32,6 +32,15 @@ class _OCRPageState extends State<OCRPage> {
   }
 
   Future<void> _pickFromGallery() async {
+    final status = await Permission.photos.request();
+    if (status != PermissionStatus.granted) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Gallery access permission is required')),
+        );
+      }
+      return;
+    }
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       await _processImage(File(pickedFile.path));
