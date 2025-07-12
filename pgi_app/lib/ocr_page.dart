@@ -11,7 +11,6 @@ class OCRPage extends StatefulWidget {
   State<OCRPage> createState() => _OCRPageState();
 }
 
-
 class _OCRPageState extends State<OCRPage> {
   String? _extractedText;
   bool _isLoading = false;
