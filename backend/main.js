@@ -15,9 +15,9 @@ const app = express();
 app.use(express.json());
 /*
 1. Backend fetches the email, pwd and role : Done
-2. checks with the db(auth)
-3. generates a JWT
-4. logs user in
+2. checks with the db(auth) : Done
+3. generates a JWT : Done
+4. logs user in : Done
 5. then serves data like past patients name and their medical history
 6. reports are uploaded on cloud
 */
@@ -60,6 +60,8 @@ app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     console.log("Responce from auth container: ", responce);
     res.send(responce);
 }));
+app.post("/info", (req, res) => {
+});
 /*
 app.post("/add-patient", async (req: Request, res: Response) => {
     try {

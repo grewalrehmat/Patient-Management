@@ -1,26 +1,11 @@
 version: "3.9"
 
 services:
-  db:
-    image: postgres:15
-    container_name: db
-    restart: always
-    # environment:
-      # POSTGRES_USER: ${POSTGRES_USER}
-      # POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      # POSTGRES_DB: ${POSTGRES_DB}
-    # volumes:
-      # - postgres_data:/var/lib/postgresql/data
-    networks:
-      - mednet
-
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     container_name: backend
-    depends_on:
-      - db
     env_file:
       - .env 
     environment:
@@ -46,9 +31,11 @@ services:
     container_name: medvault-auth
     ports:
       - "3000:3000"
-    environment:
-      # DATABASE_URL: ${DATABASE_URL}
-      JWT_SECRET: ${JWT_SECRET}
+    env_file:
+      - .env
+    # environment:
+    #   - DATABASE_URL: postgresql://postgres:password@localhost:5432/hospital_management"
+    #   - JWT_SECRET: ${JWT_SECRET}
     networks:
       - mednet
     develop:
@@ -73,9 +60,6 @@ services:
   #   networks:
   #     - mednet
   #   restart: "no"
-
-volumes:
-  postgres_data:
 
 networks:
   mednet:

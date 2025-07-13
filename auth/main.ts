@@ -2,13 +2,12 @@ import express , {Request, Response} from 'express';
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
 import { PrismaClient } from './generated/prisma/client.js';
 
 const prisma = new PrismaClient();
 
 // const patients = await prisma.patient.findMany();
-
+//
 const JWT_SECRET:any = process.env.JWT_SECRET || "ThisistheMAKESHIFTenvVariableWhichWIllbEChangedAfterWords"; // Or use dotenv
 
 const opts = {
@@ -18,7 +17,7 @@ const opts = {
 
 
 passport.use(
-    new JwtStrategy(opts, async (jwt_payload, done) => {
+    new JwtStrategy(opts, async (_jwt_payload, done) => {
         let user;
         // (async ()=>{
         //   const patient = await prisma.patient.findUnique({
@@ -38,6 +37,7 @@ app.use(passport.initialize());
 
 
 app.post('/login', async (req:Request, res:Response) => {
+    console.log(" [Container:Auth] Post request received at /login ");
     const { email, password } = req.body;
     console.log(email, password);
     const user = await prisma.employee.findFirst({
@@ -68,8 +68,8 @@ app.post('/login', async (req:Request, res:Response) => {
 
 // POST /verify
 app.post('/verify', (req:Request, res:Response) => {
-  const authHeader = req.headers.authorization;
-  const token = authHeader?.split(' ')[1];
+  console.log(" [Container:Auth] Post request received at /verify ");
+  const { token } = req.body;
 
   if (!token) return res.status(400).json({ error: 'Token missing' });
 
@@ -81,7 +81,7 @@ app.post('/verify', (req:Request, res:Response) => {
   }
 });
 
-app.get("/ping", (req: Request, res: Response) => {
+app.get("/ping", (_req: Request, res: Response) => {
   res.status(200).json({
     status: "OK",
     timestamp: new Date().toISOString(),

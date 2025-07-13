@@ -14,12 +14,13 @@ import jwt from 'jsonwebtoken';
 import { PrismaClient } from './generated/prisma/client.js';
 const prisma = new PrismaClient();
 // const patients = await prisma.patient.findMany();
+//
 const JWT_SECRET = process.env.JWT_SECRET || "ThisistheMAKESHIFTenvVariableWhichWIllbEChangedAfterWords"; // Or use dotenv
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: JWT_SECRET
 };
-passport.use(new JwtStrategy(opts, (jwt_payload, done) => __awaiter(void 0, void 0, void 0, function* () {
+passport.use(new JwtStrategy(opts, (_jwt_payload, done) => __awaiter(void 0, void 0, void 0, function* () {
     let user;
     // (async ()=>{
     //   const patient = await prisma.patient.findUnique({
@@ -37,6 +38,7 @@ const app = express();
 app.use(express.json());
 app.use(passport.initialize());
 app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(" [Container:Auth] Post request received at /login ");
     const { email, password } = req.body;
     console.log(email, password);
     const user = yield prisma.employee.findFirst({
@@ -61,8 +63,8 @@ app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 }));
 // POST /verify
 app.post('/verify', (req, res) => {
-    const authHeader = req.headers.authorization;
-    const token = authHeader === null || authHeader === void 0 ? void 0 : authHeader.split(' ')[1];
+    console.log(" [Container:Auth] Post request received at /verify ");
+    const { token } = req.body;
     if (!token)
         return res.status(400).json({ error: 'Token missing' });
     try {
@@ -73,7 +75,7 @@ app.post('/verify', (req, res) => {
         res.status(401).json({ valid: false, error: 'Invalid or expired token' });
     }
 });
-app.get("/ping", (req, res) => {
+app.get("/ping", (_req, res) => {
     res.status(200).json({
         status: "OK",
         timestamp: new Date().toISOString(),

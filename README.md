@@ -1,2 +1,3 @@
-# READMEs
-- Backend Readme: [./Backend.README.md](./Backend.README.md)
+# ReadMEs
+- For frontend devs: [./READMEs/ForFrontendDevs.md](./READMEs/ForFrontendDevs.md)
+- For backend devs: [./READMEs/ForBackendDevs.md](./READMEs/ForBackendDevs.md)

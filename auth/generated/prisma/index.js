@@ -35,12 +35,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.10.1
- * Query Engine version: 9b628578b3b7cae625e8c927178f15a170e74a9c
+ * Prisma Client JS version: 6.11.1
+ * Query Engine version: f40f79ec31188888a2e33acda0ecc8fd10a853a9
  */
 Prisma.prismaVersion = {
-  client: "6.10.1",
-  engine: "9b628578b3b7cae625e8c927178f15a170e74a9c"
+  client: "6.11.1",
+  engine: "f40f79ec31188888a2e33acda0ecc8fd10a853a9"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -156,7 +156,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/baltej/Desktop/files/patient_management/backend/generated/prisma",
+      "value": "/home/baltej/Desktop/files/patient_management/auth/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -167,10 +167,14 @@ const config = {
         "fromEnvVar": null,
         "value": "rhel-openssl-3.0.x",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "linux-musl-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/baltej/Desktop/files/patient_management/backend/prisma/schema.prisma",
+    "sourceFilePath": "/home/baltej/Desktop/files/patient_management/auth/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -178,8 +182,8 @@ const config = {
     "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma",
-  "clientVersion": "6.10.1",
-  "engineVersion": "9b628578b3b7cae625e8c927178f15a170e74a9c",
+  "clientVersion": "6.11.1",
+  "engineVersion": "f40f79ec31188888a2e33acda0ecc8fd10a853a9",
   "datasourceNames": [
     "db"
   ],
@@ -193,8 +197,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Employee {\n  employeeid   Int     @id @default(autoincrement())\n  name         String  @db.VarChar(100)\n  phone_number String? @db.VarChar(20)\n  email        String  @db.VarChar(100)\n  pwd          String  @db.VarChar(255)\n  role         String  @db.VarChar(50)\n\n  prescribed Prescribe[]\n\n  @@map(\"employees\")\n}\n\nmodel Patient {\n  patientid    Int     @id @default(autoincrement())\n  name         String  @db.VarChar(100)\n  age          Int\n  gender       String  @db.VarChar(10)\n  phone_number String? @db.VarChar(20)\n\n  prescriptions Prescribe[]\n  reports       Report[]\n\n  @@map(\"patients\")\n}\n\nmodel Prescribe {\n  id         Int @id @default(autoincrement())\n  employeeid Int\n  patientid  Int\n\n  employee Employee @relation(fields: [employeeid], references: [employeeid])\n  patient  Patient  @relation(fields: [patientid], references: [patientid])\n\n  @@map(\"prescribe\")\n}\n\nmodel Report {\n  reportid      Int       @id @default(autoincrement())\n  patientid     Int?\n  type_         String    @map(\"type\") @db.VarChar(100)\n  date_uploaded DateTime?\n\n  patient Patient? @relation(fields: [patientid], references: [patientid])\n\n  @@map(\"reports\")\n}\n",
-  "inlineSchemaHash": "678f6194681374550ed647907f297e3f2fcc96aabadf0504c4ff5e4942aec500",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../generated/prisma\"\n  binaryTargets = [\"native\", \"linux-musl-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Employee {\n  employeeid   Int     @id @default(autoincrement())\n  name         String  @db.VarChar(100)\n  phone_number String? @db.VarChar(20)\n  email        String  @db.VarChar(100)\n  pwd          String  @db.VarChar(255)\n  role         String  @db.VarChar(50)\n\n  prescribed Prescribe[]\n\n  @@map(\"employees\")\n}\n\nmodel Patient {\n  patientid    Int     @id @default(autoincrement())\n  name         String  @db.VarChar(100)\n  age          Int\n  gender       String  @db.VarChar(10)\n  phone_number String? @db.VarChar(20)\n\n  prescriptions Prescribe[]\n  reports       Report[]\n\n  @@map(\"patients\")\n}\n\nmodel Prescribe {\n  id         Int @id @default(autoincrement())\n  employeeid Int\n  patientid  Int\n\n  employee Employee @relation(fields: [employeeid], references: [employeeid])\n  patient  Patient  @relation(fields: [patientid], references: [patientid])\n\n  @@map(\"prescribe\")\n}\n\nmodel Report {\n  reportid      Int       @id @default(autoincrement())\n  patientid     Int?\n  type_         String    @map(\"type\") @db.VarChar(100)\n  date_uploaded DateTime?\n\n  patient Patient? @relation(fields: [patientid], references: [patientid])\n\n  @@map(\"reports\")\n}\n",
+  "inlineSchemaHash": "44f955660574f612cd57b81ef51443cb6953568dbab167679b93951fb2021953",
   "copyEngine": true
 }
 
@@ -235,6 +239,10 @@ Object.assign(exports, Prisma)
 // file annotations for bundling tools to include these files
 path.join(__dirname, "libquery_engine-rhel-openssl-3.0.x.so.node");
 path.join(process.cwd(), "generated/prisma/libquery_engine-rhel-openssl-3.0.x.so.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-linux-musl-openssl-3.0.x.so.node");
+path.join(process.cwd(), "generated/prisma/libquery_engine-linux-musl-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "generated/prisma/schema.prisma")

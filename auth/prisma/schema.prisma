@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Employee {
+  employeeid   Int     @id @default(autoincrement())
+  name         String  @db.VarChar(100)
+  phone_number String? @db.VarChar(20)
+  email        String  @db.VarChar(100)
+  pwd          String  @db.VarChar(255)
+  role         String  @db.VarChar(50)
+
+  prescribed Prescribe[]
+
+  @@map("employees")
+}
+
+model Patient {
+  patientid    Int     @id @default(autoincrement())
+  name         String  @db.VarChar(100)
+  age          Int
+  gender       String  @db.VarChar(10)
+  phone_number String? @db.VarChar(20)
+
+  prescriptions Prescribe[]
+  reports       Report[]
+
+  @@map("patients")
+}
+
+model Prescribe {
+  id         Int @id @default(autoincrement())
+  employeeid Int
+  patientid  Int
+
+  employee Employee @relation(fields: [employeeid], references: [employeeid])
+  patient  Patient  @relation(fields: [patientid], references: [patientid])
+
+  @@map("prescribe")
+}
+
+model Report {
+  reportid      Int       @id @default(autoincrement())
+  patientid     Int?
+  type_         String    @map("type") @db.VarChar(100)
+  date_uploaded DateTime?
+
+  patient Patient? @relation(fields: [patientid], references: [patientid])
+
+  @@map("reports")
+}
