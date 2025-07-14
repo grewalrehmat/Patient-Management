@@ -39,7 +39,7 @@ class SettingsPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(16),
                     child: Text(
-                      "To change your password, visit the security settings or contact the admin if you've forgotten it.",
+                      "To change your password, contact the admin.",
                       style: TextStyle(color: Colors.white70),
                     ),
                   ),
@@ -87,7 +87,7 @@ class SettingsPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(16),
                     child: Text(
-                      "MedVault-RS is a secure medical records system designed for PGI Hospital by Yuvraj Malik. Version 1.0.0.",
+                      "MedVault-RS is a secure medical records system designed for PGI Hospital. Version 1.0.0.",
                       style: TextStyle(color: Colors.white70),
                     ),
                   ),
@@ -111,7 +111,7 @@ class SettingsPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(16),
                     child: Text(
-                      "Need help? Reach us at support@medvault.rs or contact your system admin.",
+                      "Need help? Contact your system admin.",
                       style: TextStyle(color: Colors.white70),
                     ),
                   ),

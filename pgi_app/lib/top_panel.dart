@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'notifications_page.dart';
 
 class TopPanel extends StatelessWidget implements PreferredSizeWidget {
   const TopPanel({super.key});
@@ -30,7 +31,14 @@ class TopPanel extends StatelessWidget implements PreferredSizeWidget {
               color: const Color.fromARGB(255, 255, 255, 255),
               size: isMobile ? 26 : 30,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationsPage(),
+                ),
+              );
+            },
           ),
           Padding(
             padding: const EdgeInsets.only(right: 16),

@@ -13,7 +13,7 @@ class ProfilePage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/dashboard');
+            Navigator.pop(context);
           },
         ),
         title: const Text('Profile'),
@@ -53,7 +53,6 @@ class ProfilePage extends StatelessWidget {
                 _infoTile(Icons.badge, 'Role', 'Doctor'),
 
                 const Divider(height: 32, color: Colors.white12),
-                _activityLogSection(),
               ],
             ),
           ),
@@ -67,38 +66,6 @@ class ProfilePage extends StatelessWidget {
       leading: Icon(icon, color: Colors.white60),
       title: Text(label, style: const TextStyle(color: Colors.white70)),
       subtitle: Text(value, style: const TextStyle(color: Colors.white)),
-    );
-  }
-
-  Widget _activityLogSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Activity Log',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        const SizedBox(height: 12),
-        _logItem('Scanned Report - Chest X-Ray', '22 June 2025, 10:45 AM'),
-        _logItem('Viewed Profile', '21 June 2025, 6:00 PM'),
-        _logItem('Logged in', '21 June 2025, 5:58 PM'),
-      ],
-    );
-  }
-
-  Widget _logItem(String action, String time) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: const Icon(Icons.history, color: Colors.white54),
-      title: Text(action, style: const TextStyle(color: Colors.white)),
-      subtitle: Text(
-        time,
-        style: const TextStyle(color: Colors.white54, fontSize: 12),
-      ),
     );
   }
 }

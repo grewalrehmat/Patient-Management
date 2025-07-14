@@ -54,56 +54,60 @@ class _OCRPageState extends State<OCRPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final bool isWideScreen = MediaQuery.of(context).size.width > 800;
+    const lightBlue = Color(0xFF64B5F6);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: isWideScreen
           ? AppBar(
-              backgroundColor: const Color(0xFF0F172A),
+              backgroundColor: theme.scaffoldBackgroundColor,
               elevation: 0,
-              title: const Text(
+              title: Text(
                 "OCR Scanner",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: colorScheme.onBackground),
               ),
               centerTitle: true,
             )
           : null,
       body: Padding(
         padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 32),
-            _ocrOptionButton(
-              icon: Icons.camera_alt,
-              label: "Scan using Camera",
-              onTap: _openCamera,
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.all(32),
+            decoration: BoxDecoration(
+              color: lightBlue.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: lightBlue, width: 1.5),
             ),
-          ],
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.camera_alt, size: 72, color: lightBlue),
+                const SizedBox(height: 24),
+                ElevatedButton.icon(
+                  onPressed: _openCamera,
+                  icon: const Icon(Icons.qr_code_scanner, color: Colors.white),
+                  label: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Text(
+                      "Scan using Camera",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: lightBlue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-      ),
-    );
-  }
-
-  Widget _ocrOptionButton({
-    required IconData icon,
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return ElevatedButton.icon(
-      onPressed: onTap,
-      icon: Icon(icon, size: 28, color: Colors.white),
-      label: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        child: Text(
-          label,
-          style: const TextStyle(fontSize: 18, color: Colors.white),
-        ),
-      ),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blueAccent,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }

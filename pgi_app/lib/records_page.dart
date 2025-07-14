@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'log_visit_page.dart';
+import 'package:pgi_app/patient_detail_page.dart';
 
 class RecordsPage extends StatefulWidget {
   const RecordsPage({super.key});
@@ -152,7 +151,7 @@ class _RecordsPageState extends State<RecordsPage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      LogVisitPage(patient: patient),
+                                      PatientDetailPage(patient: patient),
                                 ),
                               );
                             },

@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
         children: [
           const SizedBox(height: 8),
           const Text(
-            'Hello, Yuvraj!',
+            'Welcome, User!',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w500,
@@ -30,27 +30,9 @@ class HomePage extends StatelessWidget {
           Wrap(
             spacing: 16,
             runSpacing: 16,
-            children: [
-              _statBox('Total Patients', '52', isWideScreen),
-              _statBox('Pending Reports', '13', isWideScreen),
-            ],
+            children: [_statBox('Total Patients', '52', isWideScreen)],
           ),
           const SizedBox(height: 24),
-
-          if (isWideScreen) ...[
-            const Text(
-              'Today\'s Appointments',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 12),
-            _appointmentCard('Rakesh Gupta', '10:30 AM'),
-            _appointmentCard('Meena Joshi', '11:00 AM'),
-            const SizedBox(height: 24),
-          ],
 
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -146,20 +128,6 @@ class HomePage extends StatelessWidget {
         ),
         trailing: const Icon(Icons.arrow_forward_ios, color: Colors.white54),
         onTap: () {},
-      ),
-    );
-  }
-
-  Widget _appointmentCard(String name, String time) {
-    return Card(
-      color: Colors.white10,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      margin: const EdgeInsets.only(bottom: 12),
-      child: ListTile(
-        leading: const Icon(Icons.calendar_today, color: Colors.blueAccent),
-        title: Text(name, style: const TextStyle(color: Colors.white)),
-        subtitle: Text(time, style: const TextStyle(color: Colors.white70)),
-        trailing: const Icon(Icons.arrow_forward_ios, color: Colors.white54),
       ),
     );
   }
